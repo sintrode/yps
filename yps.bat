@@ -32,7 +32,7 @@ setlocal enabledelayedexpansion
 ::------------------------------------------------------------------------------
 ::                                  CONSTANTS
 ::------------------------------------------------------------------------------
-:: Third-party constants
+:: Internal constants
 set "root_dir=%~dp0"
 set "curl=%systemroot%\System32\curl.exe"
 
