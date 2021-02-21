@@ -48,15 +48,15 @@ set "archive_file=%etc_dir%\snagged.txt"
 set "playlist_list=%etc_dir%\playlists.txt"
 set "output_dir=F:\Youtube\"
 
-:: Check for updates if requested
-if /I "%~1"=="-U" goto :update
-
 :: Confirm that prerequisites exist
 <nul set /p ".=Checking for prerequisites...[    ]"
 if not exist "%curl%" call :prereq_fail curl || exit /b 1
 if not exist "%ffmpeg%" call :prereq_fail ffmpeg || exit /b 1
 if not exist "%seven_zip%" call :prereq_fail 7-zip || exit /b 1
 if not exist "%ydl%" call :prereq_fail youtube-dl || exit /b 1
+
+:: Check for updates if requested
+if /I "%~1"=="-U" goto :update
 
 :: Confirm that required files exist
 if not exist %archive_file% type nul >%archive_file%
