@@ -108,7 +108,7 @@ set "file_7z=%bin_dir%\ffmpeg-git-full.7z"
 "%ydl%" --no-check-certificate --update
 "%curl%" -kL %url_7z% -o "%file_7z%"
 "%seven_zip%" e -y "%file_7z%" *\bin\ffmpeg.exe
-move /y ffmpeg.exe bin
+move /y ffmpeg.exe "%bin_dir%"
 del "%file_7z%"
 exit /b
 
