@@ -3,28 +3,22 @@
 ::     YouTube Playlist Sync
 ::
 :: DESCRIPTION
-::     Uses youtube-dl to download playlists from a config file
+::     Uses yt-dlp to download playlists from a config file
 ::
 :: USAGE
 ::     yps.bat [-U]
 ::
 :: OPTIONAL ARGUMENTS
-::     -U    Updates youtube-dl and ffmpeg. Requires 7-Zip and cURL.
-::
-:: AUTHOR
-::     sintrode
+::     -U    Updates yt-dlp and ffmpeg. Requires 7-Zip and cURL.
 ::
 :: REQUIREMENTS
-::     7-Zip      (https://www.7-zip.org/download.html)
-::     cURL       (included in Win 10, or https://curl.haxx.se/download.html)
-::     ffmpeg     (https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z)
-::     youtube-dl (https://ytdl-org.github.io/youtube-dl/download.html)
+::     7-Zip     (https://www.7-zip.org/download.html)
+::     cURL      (included in Win 10, or https://curl.haxx.se/download.html)
+::     ffmpeg    (https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z)
+::     yt-dlp    (https://github.com/yt-dlp/yt-dlp/releases)
 ::
 :: THANKS
 ::     https://www.reddit.com/r/DataHoarder/comments/c6fh4x/
-::
-:: VERSION HISTORY
-::     1.0 (2020-10-21) - Initial Version
 ::------------------------------------------------------------------------------
 @echo off
 setlocal enabledelayedexpansion
@@ -38,7 +32,7 @@ set "curl=%systemroot%\System32\curl.exe"
 
 :: /bin constants
 set "bin_dir=%root_dir%bin"
-set "ydl=%bin_dir%\youtube-dl.exe"
+set "ydl=%bin_dir%\yt-dlp.exe"
 set "ffmpeg=%bin_dir%\ffmpeg.exe"
 set "seven_zip=%bin_dir%\7za.exe"
 
@@ -59,8 +53,8 @@ if not exist "%ydl%" call :prereq_fail youtube-dl || exit /b 1
 if /I "%~1"=="-U" goto :update
 
 :: Confirm that required files exist
-if not exist %archive_file% type nul >%archive_file%
-if not exist %playlist_list% type nul >%playlist_list%
+if not exist "%archive_file%" type nul >"%archive_file%"
+if not exist "%playlist_list%" type nul >"%playlist_list%"
 if not exist "%output_dir%" mkdir "%output_dir%"
 echo [5D[32mPASS[0m
 
@@ -82,17 +76,17 @@ for %%A in (4320 2880 2160 1440 1080 720 480 360 240 144) do (
 set "ydl_format=!ydl_format!bestvideo)+(bestaudio[acodec^^=opus]/bestaudio)/best""
 
 if "%~1"=="" (
-	set "ydl_list=-a %playlist_list%"
+	set "ydl_list=-a "%playlist_list%""
 ) else (
 	set "ydl_list=%~1"
 )
 set "ydl_opts=--no-continue --retries infinite --ignore-errors"
 set "ydl_opts=%ydl_opts% --merge-output-format mkv --sleep-interval 2"
-set "ydl_opts=%ydl_opts% --download-archive %archive_file%"
+set "ydl_opts=%ydl_opts% --download-archive "%archive_file%""
 set "ydl_output_mask=%output_dir%%%(uploader)s\%%(playlist)s\%%(title)s"
 echo [5D[32mPASS[0m]
 
-"%ydl%" %ydl_list% !ydl_format! %ydl_opts% -o %ydl_output_mask%
+"%ydl%" %ydl_list% !ydl_format! %ydl_opts% -o "%ydl_output_mask%"
 
 exit /b 0
 
@@ -122,7 +116,7 @@ exit /b
 set "link[7-zip]=https://www.7-zip.org/download.html"
 set "link[curl]=https://curl.haxx.se/download.html"
 set "link[ffmpeg]=https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z"
-set "link[youtube-dl]=https://ytdl-org.github.io/youtube-dl/download.html"
+set "link[youtube-dl]=https://github.com/yt-dlp/yt-dlp/releases"
 
 echo [5D[31mFAIL[0m]
 choice /M "%~1 not present. Open a browser to download it "
