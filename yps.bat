@@ -47,7 +47,7 @@ set "output_dir=F:\Youtube\"
 if not exist "%curl%" call :prereq_fail curl || exit /b 1
 if not exist "%ffmpeg%" call :prereq_fail ffmpeg || exit /b 1
 if not exist "%seven_zip%" call :prereq_fail 7-zip || exit /b 1
-if not exist "%ydl%" call :prereq_fail youtube-dl || exit /b 1
+if not exist "%ydl%" call :prereq_fail yt-dlp || exit /b 1
 
 :: Check for updates if requested
 if /I "%~1"=="-U" goto :update
@@ -91,7 +91,7 @@ echo [5D[32mPASS[0m]
 exit /b 0
 
 ::------------------------------------------------------------------------------
-:: Downloads youtube-dl and ffmpeg and places them in the current directory
+:: Downloads yt-dlp and ffmpeg and places them in the current directory
 ::
 :: Arguments: None
 :: Returns:   None
@@ -116,7 +116,7 @@ exit /b
 set "link[7-zip]=https://www.7-zip.org/download.html"
 set "link[curl]=https://curl.haxx.se/download.html"
 set "link[ffmpeg]=https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z"
-set "link[youtube-dl]=https://github.com/yt-dlp/yt-dlp/releases"
+set "link[yt-dlp]=https://github.com/yt-dlp/yt-dlp/releases"
 
 echo [5D[31mFAIL[0m]
 choice /M "%~1 not present. Open a browser to download it "
