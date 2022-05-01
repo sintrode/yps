@@ -1,5 +1,5 @@
 # yps
-Downloads YouTube playlists from a config file via youtube-dl.
+Downloads YouTube playlists from a config file via yt-dlp.
 
 # Prerequisites
 7-Zip      (https://www.7-zip.org/download.html)<br />
