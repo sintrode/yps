@@ -11,4 +11,4 @@ yt-dlp     (https://github.com/yt-dlp/yt-dlp/releases)
 Update the etc\playlists.txt file with the URLs of the playlists you wish to download, then run `yps.bat`
 
 # Updating
-New versions of youtube-dl and ffmpeg can be downloaded by running `yps -U`
+New versions of yt-dlp and ffmpeg can be downloaded by running `yps -U`
