@@ -81,7 +81,7 @@ if "%~1"=="" (
 	set "ydl_list=%~1"
 )
 set "ydl_opts=--no-continue --retries infinite --ignore-errors"
-set "ydl_opts=%ydl_opts% --merge-output-format mkv --sleep-interval 2"
+set "ydl_opts=%ydl_opts% --merge-output-format mkv --sleep-requests 2"
 set "ydl_opts=%ydl_opts% --download-archive "%archive_file%""
 set "ydl_output_mask=%output_dir%%%(uploader)s\%%(playlist)s\%%(title)s"
 echo [5D[32mPASS[0m]
