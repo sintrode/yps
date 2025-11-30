@@ -14,7 +14,8 @@
 :: REQUIREMENTS
 ::     7-Zip     (https://www.7-zip.org/download.html)
 ::     cURL      (included in Win 10, or https://curl.haxx.se/download.html)
-::     ffmpeg    (https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z)
+::     ffmpeg    (https://github.com/BtbN/FFmpeg-Builds)
+::     deno      (https://github.com/denoland/deno/)
 ::     yt-dlp    (https://github.com/yt-dlp/yt-dlp/releases)
 ::
 :: THANKS
@@ -81,8 +82,8 @@ if "%~1"=="" (
 	set "ydl_list=%~1"
 )
 set "ydl_opts=--no-continue --retries infinite --ignore-errors"
-set "ydl_opts=%ydl_opts% --merge-output-format mkv --sleep-requests 2"
-set "ydl_opts=%ydl_opts% --download-archive "%archive_file%""
+set "ydl_opts=%ydl_opts% --merge-output-format mkv --sleep-interval 2"
+set "ydl_opts=%ydl_opts% --download-archive "%archive_file%" --cookies-from-browser firefox"
 set "ydl_output_mask=%output_dir%%%(uploader)s\%%(playlist)s\%%(title)s"
 echo [5D[32mPASS[0m]
 
@@ -97,13 +98,26 @@ exit /b 0
 :: Returns:   None
 ::------------------------------------------------------------------------------
 :update
-set "url_7z=https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z"
-set "file_7z=%bin_dir%\ffmpeg-git-full.7z"
 "%ydl%" --no-check-certificate --update
+
+set "ffmpeg_url=https://github.com/BtbN/FFmpeg-Builds/releases/download/latest"
+set "ffmpeg_archive=ffmpeg-master-latest-win64-gpl-shared.zip"
+set "url_7z=%ffmpeg_url%/%ffmpeg_archive%"
+set "file_7z=%bin_dir%\%ffmpeg_archive%"
 "%curl%" -kL %url_7z% -o "%file_7z%"
-"%seven_zip%" e -y "%file_7z%" *\bin\ffmpeg.exe
-move /y ffmpeg.exe "%bin_dir%"
+"%seven_zip%" e -y "%file_7z%" *\bin\*.*
+move /y ff*.exe "%bin_dir%"
+move /y *.dll "%bin_dir%"
 del "%file_7z%"
+
+for /f "delims=" %%A in ('curl -s "https://dl.deno.land/release-latest.txt"') do set "deno_version=%%~A"
+set "deno_archive=deno-x86_64-pc-windows-msvc.zip"
+set "deno_url=https://dl.deno.land/release/%deno_version%/%deno_archive%"
+"%curl%" -kLO "%deno_url%"
+"%seven_zip%" e -y "%deno_archive%"
+move /y deno.exe "%bin_dir%"
+del "%deno_archive%"
+
 exit /b
 
 ::------------------------------------------------------------------------------
